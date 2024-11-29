@@ -1,10 +1,7 @@
 const dsp = new AudioContext();
 let masterGain = dsp.createGain();
 let osc; //inizializzo la variabile fuori dalla funzione, ovvero GLOBALE
-const btnConta = document.getElementById("counter");
 const btnStartDsp = document.getElementById("startDsp");
-const btnResetta = document.getElementById("resetCounter");
-const valNumero = document.getElementById("numero");
 const slider = document.getElementById("slider");
 const sliderValue = document.getElementById("sliderValue");
 const startOscillator = document.getElementById("startOsc");
@@ -45,13 +42,17 @@ function startOsc(){
     oscPlaying = true;
 }
 
+function getRndFreq(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) ) + min;
+}
+
 function startFm(){
   const attackTime = 1;
   const decayTime = 1;
   //portante
   const oscP = dsp.createOscillator(); //portante
   oscP.type = "sine";
-  oscP.frequency.value = 440;
+  oscP.frequency.value = getRndFreq(200, 2000);
 
   //modulante
   const oscM = dsp.createOscillator(); //modulante
@@ -104,23 +105,6 @@ function startAm(){
   oscM.start();
   oscPlaying = true;
 }
-
-let a = 0;
-
-btnConta.addEventListener("click", function conta(){ //noi come argomento della funzione addEventListener usiamo la funzione stessa
-  if (a == 10) { //quando il counter raggiunge 10 si resetta
-    a = 0;
-  } else {
-    a += 1;
-  };
-  valNumero.innerHTML = a;
-});
-
-
-btnResetta.addEventListener("click", () => {
-  a = 0;
-  valNumero.innerHTML = a;
-});
 
 slider.addEventListener("input", () => {
   sliderValue.innerHTML = parseFloat(slider.value).toFixed(2);
