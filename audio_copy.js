@@ -1,18 +1,40 @@
 const dsp = new AudioContext();
-let masterGain = dsp.createGain();
 let osc; //inizializzo la variabile fuori dalla funzione, ovvero GLOBALE
+const gainSin = dsp.createGain();
+const gainFm = dsp.createGain();
+const gainAm = dsp.createGain();
+const gainMaster = dsp.createGain();
 const btnStartDsp = document.getElementById("startDsp");
-const slider = document.getElementById("slider");
-const sliderValue = document.getElementById("sliderValue");
+const sliderGainSin = document.getElementById("gainSin");
+const sliderGainAm = document.getElementById("gainAm");
+const sliderGainFm = document.getElementById("gainFm");
+const sliderMasterGain = document.getElementById("masterGain");
+const valueSin = document.getElementById("valueSin");
+const valueAm = document.getElementById("valueAm");
+const valueFm = document.getElementById("valueFm");
+const valueMaster = document.getElementById("valueMaster");
+
 const startOscillator = document.getElementById("startOsc");
-masterGain.gain.value = slider.value;
+
 console.log(dsp.sampleRate);
 console.log(osc);
 
 //INIZIALIZZAZIONE//
-slider.value = 0.1;
-masterGain.gain.value = parseFloat(slider.value);
-sliderValue.innerHTML = parseFloat(slider.value).toFixed(2);
+sliderGainSin.value = 0.1;
+gainSin.gain.value = parseFloat(sliderGainSin.value);
+valueSin.innerHTML = parseFloat(sliderGainSin.value).toFixed(2);
+
+sliderGainFm.value = 0.1;
+gainFm.gain.value = parseFloat(sliderGainFm.value);
+valueFm.innerHTML = parseFloat(sliderGainFm.value).toFixed(2);
+
+sliderGainAm.value = 0.1;
+gainAm.gain.value = parseFloat(sliderGainAm.value);
+valueAm.innerHTML = parseFloat(sliderGainAm.value).toFixed(2);
+
+sliderMasterGain.value = 0.1;
+gainMaster.gain.value = parseFloat(sliderMasterGain.value);
+valueMaster.innerHTML = parseFloat(sliderMasterGain.value).toFixed(2);
 
 //INTERAZIONE//
 function startDsp(){
@@ -36,8 +58,8 @@ function startOsc(){
     gain.gain.linearRampToValueAtTime(1, dsp.currentTime + attackTime);
     gain.gain.linearRampToValueAtTime(0, dsp.currentTime + attackTime + decayTime);
     osc.connect(gain);
-    gain.connect(masterGain);
-    masterGain.connect(dsp.destination);
+    gain.connect(gainSin);
+    gainSin.connect(dsp.destination);
     osc.start();
     oscPlaying = true;
 }
@@ -69,8 +91,8 @@ function startFm(){
   gain.gain.linearRampToValueAtTime(1, dsp.currentTime + attackTime);
   gain.gain.linearRampToValueAtTime(0, dsp.currentTime + attackTime + decayTime);
   oscP.connect(gain);
-  gain.connect(masterGain);
-  masterGain.connect(dsp.destination);
+  gain.connect(gainFm);
+  gainFm.connect(dsp.destination);
   oscP.start();
   oscM.start();
   oscPlaying = true;
@@ -91,24 +113,35 @@ function startAm(){
   oscM.frequency.value = 1;
   oscM.connect(gainMod);
 
-  gainMod.connect(gain.gain);
-
-
   const gain = dsp.createGain();
+  gainMod.connect(gain.gain);
   gain.gain.setValueAtTime(0,dsp.currentTime);
   gain.gain.linearRampToValueAtTime(1, dsp.currentTime + attackTime);
   gain.gain.linearRampToValueAtTime(0, dsp.currentTime + attackTime + decayTime);
   oscP.connect(gain);
-  gain.connect(masterGain);
-  masterGain.connect(dsp.destination);
+  gain.connect(masterGainAm);
+  masterGainAm.connect(dsp.destination);
   oscP.start();
   oscM.start();
   oscPlaying = true;
 }
 
-slider.addEventListener("input", () => {
-  sliderValue.innerHTML = parseFloat(slider.value).toFixed(2);
-  masterGain.gain.value = slider.value;
+sliderGainSin.addEventListener("input", () => {
+  valueSin.innerHTML = parseFloat(sliderGainSin.value).toFixed(2);
+  gainSin.gain.value = sliderGainSin.value;
 })
 
+sliderGainFm.addEventListener("input", () => {
+  valueFm.innerHTML = parseFloat(sliderGainFm.value).toFixed(2);
+  gainFm.gain.value = sliderGainFm.value;
+})
 
+sliderGainAm.addEventListener("input", () => {
+  valueAm.innerHTML = parseFloat(sliderGainAm.value).toFixed(2);
+  gainAm.gain.value = sliderGainAm.value;
+})
+
+sliderMasterGain.addEventListener("input", () => {
+  valueMaster.innerHTML = parseFloat(sliderMasterGain.value).toFixed(2);
+  gainMaster.gain.value = sliderMasterGain.value;
+})

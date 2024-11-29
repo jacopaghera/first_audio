@@ -11,9 +11,12 @@
     <button id="startDsp" onclick="startDsp()">Start DSP</button>
     <button id="startOsc" onclick="startOsc()">Start the sound</button>
   </div>
-  <div>
+  <div id="mixer">
     <button id="startDsp">Start audio</button>
-    <input type="range" id="slider" min="0" max="1" step="any"> <span id="sliderValue">0</span>
+    <input type="range" id="gainSin" min="0" max="1" step="any"> <span id="valueSin">0</span>
+    <input type="range" id="gainFm" min="0" max="1" step="any"> <span id="valueFm">0</span>
+    <input type="range" id="gainAm" min="0" max="1" step="any"> <span id="valueAm">0</span>
+    <input type="range" id="masterGain" min="0" max="1" step="any"> <span id="valueMaster">0</span>
   </div>
   <script src="audio_copy.js"></script>
   <script src="inputs.js"></script>
