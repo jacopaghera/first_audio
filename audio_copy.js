@@ -16,6 +16,8 @@ const valueMaster = document.getElementById("valueMaster");
 
 const startOscillator = document.getElementById("startOsc");
 
+gainMaster.connect(dsp.destination);
+
 console.log(dsp.sampleRate);
 console.log(osc);
 
@@ -59,7 +61,7 @@ function startOsc(){
     gain.gain.linearRampToValueAtTime(0, dsp.currentTime + attackTime + decayTime);
     osc.connect(gain);
     gain.connect(gainSin);
-    gainSin.connect(dsp.destination);
+    gainSin.connect(gainMaster);
     osc.start();
     oscPlaying = true;
 }
@@ -92,7 +94,7 @@ function startFm(){
   gain.gain.linearRampToValueAtTime(0, dsp.currentTime + attackTime + decayTime);
   oscP.connect(gain);
   gain.connect(gainFm);
-  gainFm.connect(dsp.destination);
+  gainFm.connect(gainMaster);
   oscP.start();
   oscM.start();
   oscPlaying = true;
@@ -119,8 +121,8 @@ function startAm(){
   gain.gain.linearRampToValueAtTime(1, dsp.currentTime + attackTime);
   gain.gain.linearRampToValueAtTime(0, dsp.currentTime + attackTime + decayTime);
   oscP.connect(gain);
-  gain.connect(masterGainAm);
-  masterGainAm.connect(dsp.destination);
+  gain.connect(gainAm);
+  gainAm.connect(gainMaster);
   oscP.start();
   oscM.start();
   oscPlaying = true;
