@@ -87,7 +87,7 @@ function startFm(){
   //setTimeOut
 
   const gain = dsp.createGain();
-  gain.gain.setValueAtTime(0,dsp.currentTime);
+  gain.gain.setValueAtTime(0, dsp.currentTime);
   gain.gain.linearRampToValueAtTime(1, dsp.currentTime + attackTime);
   gain.gain.linearRampToValueAtTime(0, dsp.currentTime + attackTime + decayTime);
   oscP.connect(gain);
@@ -115,7 +115,7 @@ function startAm(){
 
   const gain = dsp.createGain();
   gainMod.connect(gain.gain);
-  gain.gain.setValueAtTime(0,dsp.currentTime);
+  gain.gain.setValueAtTime(0, dsp.currentTime);
   gain.gain.linearRampToValueAtTime(1, dsp.currentTime + attackTime);
   gain.gain.linearRampToValueAtTime(0, dsp.currentTime + attackTime + decayTime);
   
@@ -129,21 +129,20 @@ function startAm(){
 
 sliderGainSin.addEventListener("input", () => {
   valueSin.innerHTML = parseFloat(sliderGainSin.value).toFixed(2);
-  console.log(sliderGainSin.value)
-  gainSin.gain.value = sliderGainSin.value; 
+  gainSin.gain.linearRampToValueAtTime(sliderGainSin.value, dsp.currentTime + 0.1); 
 })
 
 sliderGainFm.addEventListener("input", () => {
   valueFm.innerHTML = parseFloat(sliderGainFm.value).toFixed(2);
-  gainFm.gain.value = sliderGainFm.value;
+  gainFm.gain.linearRampToValueAtTime(sliderGainFm.value, dsp.currentTime + 0.1);
 })
 
 sliderGainAm.addEventListener("input", () => {
   valueAm.innerHTML = parseFloat(sliderGainAm.value).toFixed(2);
-  gainAm.gain.value = sliderGainAm.value;
+  gainAm.gain.linearRampToValueAtTime(sliderGainAm.value, dsp.currentTime + 0.1);
 })
 
 sliderMasterGain.addEventListener("input", () => {
   valueMaster.innerHTML = parseFloat(sliderMasterGain.value).toFixed(2);
-  gainMaster.gain.value = sliderMasterGain.value;
+  gainMaster.gain.linearRampToValueAtTime(sliderMasterGain.value, dsp.currentTime + 0.1);
 })
