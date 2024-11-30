@@ -2,18 +2,18 @@ let pressed = false;
 
 window.addEventListener("keydown", (ev) => {
   if (ev.code == "Space") {
-      startSin();
+      startOsc();
   }
 })
 
 window.addEventListener("keydown", (ev) => {
-  if (ev.code == "Q") {
+  if (ev.code == "KeyQ") {
       startFm();
   }
 })
 
 window.addEventListener("keydown", (ev) => {
-  if (ev.code == "W") {
+  if (ev.code == "KeyW") {
       startAm();
   }
 })

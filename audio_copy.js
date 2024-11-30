@@ -1,5 +1,4 @@
 const dsp = new AudioContext();
-let osc; //inizializzo la variabile fuori dalla funzione, ovvero GLOBALE
 const gainSin = dsp.createGain();
 const gainFm = dsp.createGain();
 const gainAm = dsp.createGain();
@@ -19,12 +18,12 @@ const startOscillator = document.getElementById("startOsc");
 gainMaster.connect(dsp.destination);
 
 console.log(dsp.sampleRate);
-console.log(osc);
+console.log(gainSin);
 
 //INIZIALIZZAZIONE//
 sliderGainSin.value = 0.1;
 gainSin.gain.value = parseFloat(sliderGainSin.value);
-valueSin.innerHTML = parseFloat(sliderGainSin.value).toFixed(2);
+valueSin.innerHTML = parseFloat( sliderGainSin.value).toFixed(2);
 
 sliderGainFm.value = 0.1;
 gainFm.gain.value = parseFloat(sliderGainFm.value);
@@ -34,27 +33,27 @@ sliderGainAm.value = 0.1;
 gainAm.gain.value = parseFloat(sliderGainAm.value);
 valueAm.innerHTML = parseFloat(sliderGainAm.value).toFixed(2);
 
-sliderMasterGain.value = 0.1;
+sliderMasterGain.value = 1;
 gainMaster.gain.value = parseFloat(sliderMasterGain.value);
 valueMaster.innerHTML = parseFloat(sliderMasterGain.value).toFixed(2);
 
 //INTERAZIONE//
-function startDsp(){
-  if (dsp.state == "suspended") {
-    dsp.resume();
-    btnStartDsp.innerHTML = "Stop audio";
-  } else {
-    dsp.suspend();
-    btnStartDsp.innerHTML = "Start audio";
-  }
-}
+// function startDsp(){
+//   if (dsp.state == "suspended") {
+//     dsp.resume();
+//     btnStartDsp.innerHTML = "Stop audio";
+//   } else {
+//     dsp.suspend();
+//     btnStartDsp.innerHTML = "Start audio";
+//   }
+// }
 
 console.log(dsp)
 
 function startOsc(){
     const attackTime = 1;
     const decayTime = 1;
-    osc = dsp.createOscillator(); //funzione che da come risultato un oscillatore, osc viene riempita dall'informazione
+    const osc = dsp.createOscillator(); //funzione che da come risultato un oscillatore, osc viene riempita dall'informazione
     const gain = dsp.createGain();
     gain.gain.setValueAtTime(0,dsp.currentTime);
     gain.gain.linearRampToValueAtTime(1, dsp.currentTime + attackTime);
@@ -63,7 +62,6 @@ function startOsc(){
     gain.connect(gainSin);
     gainSin.connect(gainMaster);
     osc.start();
-    oscPlaying = true;
 }
 
 function getRndFreq(min, max) {
@@ -120,6 +118,7 @@ function startAm(){
   gain.gain.setValueAtTime(0,dsp.currentTime);
   gain.gain.linearRampToValueAtTime(1, dsp.currentTime + attackTime);
   gain.gain.linearRampToValueAtTime(0, dsp.currentTime + attackTime + decayTime);
+  
   oscP.connect(gain);
   gain.connect(gainAm);
   gainAm.connect(gainMaster);
@@ -130,7 +129,8 @@ function startAm(){
 
 sliderGainSin.addEventListener("input", () => {
   valueSin.innerHTML = parseFloat(sliderGainSin.value).toFixed(2);
-  gainSin.gain.value = sliderGainSin.value;
+  console.log(sliderGainSin.value)
+  gainSin.gain.value = sliderGainSin.value; 
 })
 
 sliderGainFm.addEventListener("input", () => {
